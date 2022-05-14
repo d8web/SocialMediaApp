@@ -1,20 +1,29 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import { StatusBar } from "expo-status-bar";
+import { useFonts } from "expo-font";
+import { Provider } from "react-redux";
+import MainStack from "./src/routes";
+import { store } from "./src/redux/store";
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+const App = () => {
+    let [fontsLoaded] = useFonts({
+        "Roboto-Light": require("./src/assets/fonts/Roboto-Light.ttf"),
+        "Roboto-Regular": require("./src/assets/fonts/Roboto-Regular.ttf"),
+        "Roboto-Medium": require("./src/assets/fonts/Roboto-Medium.ttf"),
+        "Roboto-Bold": require("./src/assets/fonts/Roboto-Bold.ttf"),
+        "Roboto-Black": require("./src/assets/fonts/Roboto-Black.ttf"),
+    });
+
+    if(!fontsLoaded) {
+        return null;
+    }
+
+    return (
+        <Provider store={store}>
+            <StatusBar translucent={false} />
+            <MainStack/>
+        </Provider>
+    );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
